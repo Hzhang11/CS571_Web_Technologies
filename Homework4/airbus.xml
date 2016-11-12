@@ -1,0 +1,44 @@
+<?xml version = "1.0"?> 
+<catalog>
+     <title>Airbus Aircraft Families</title>
+     <aircraft> 
+	<Airbus>A380</Airbus>
+	<Aircraft>A380 </Aircraft> 
+	<seats>555</seats>
+	<Range>15000km </Range>
+        <Wingspan>79.80m</Wingspan> 
+	<Length>73.00m</Length>
+      <Height>24.10m</Height>
+	<Image>http://cs-server.usc.edu:45678/examples/dom/aircraft/A380.jpg</Image>
+     </aircraft>
+     <aircraft> 
+	<Airbus>A330/A340</Airbus>
+	<Aircraft>A340-600</Aircraft> 
+	<seats>380</seats>
+	<Range>14600km</Range>
+	<Wingspan>63.45m</Wingspan> 
+	<Length>75.30m</Length>
+      <Height>17.30m</Height>
+	<Image>http://cs-server.usc.edu:45678/examples/dom/aircraft/A340.jpg</Image>
+     </aircraft>
+     <aircraft> 
+	<Airbus>A300/A310</Airbus>
+	<Aircraft>A300-600</Aircraft> 
+	<seats>266</seats>
+	<Range>7500km</Range>
+	<Wingspan>44.84m</Wingspan> 
+	<Length>54.10m</Length>
+      <Height>16.54m</Height>
+	<Image>http://cs-server.usc.edu:45678/examples/dom/aircraft/A300.jpg</Image>
+     </aircraft>
+     <aircraft> 
+	<Airbus>A320</Airbus>
+	<Aircraft>A321</Aircraft> 
+	<seats>185</seats>
+	<Range>5600km</Range>
+	<Wingspan>34.09m</Wingspan> 
+	<Length>44.51m</Length>
+      <Height>11.76m</Height>
+	<Image>http://cs-server.usc.edu:45678/examples/dom/aircraft/A321.jpg</Image>
+     </aircraft>
+</catalog>

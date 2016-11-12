@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Homework 4</title>
+    <meta name="author" content="Han Zhang">
+
+    <style>
+        #form_wrapper {
+            margin: 100px auto;
+            text-align: center;
+        }
+    </style>
+
+    <script>
+        function loadTable(xmlDoc) {
+            root = xmlDoc.documentElement;
+            var html_text = "<html><head><title>XML Parse Result</title><style>table { margin: auto;}</style></head><body>"
+            html_text += "<table border='2'><tr>";
+            headers = root.getElementsByTagName("Data");
+            if (headers.length != 5) {
+                alert("Error: Missing Header tag.");
+                return;
+            }
+            for (i = 0; i < headers.length; i++) {
+                var headerText = first_child(headers.item(i)) == null ? "N/A" : data_of(first_child(headers.item(i)));
+                html_text += "<th>" + headerText + "</th>";
+            }
+            html_text += "</tr><tr>"
+
+            var newspapers = root.getElementsByTagName("Row");
+            for (i = 0; i < newspapers.length; i++) {
+
+                var slot = first_child(newspapers.item(i).getElementsByTagName("Slot").item(0));
+                var slot_text = slot == null ? "N/A" : data_of(slot);
+
+                var name = first_child(newspapers.item(i).getElementsByTagName("Newspaper").item(0));
+                var name_text = name == null ? "N/A" : data_of(name);
+
+                var locations_text = "<ul>";
+                var locations = newspapers.item(i).getElementsByTagName("Location").item(0);
+                if (first_child(locations) == null) {
+                    locations_text += "<li>N/A (Internet Only)</li>";
+                } else if (data_of(first_child(locations)) == data_of(last_child(locations))) {
+                    locations_text += "<li>" + data_of(first_child(locations)) + "</li>";
+                } else {
+                    locations_text += "<li>" + data_of(first_child(locations)) + "</li>";
+                    locations_text += "<li>" + data_of(last_child(locations)) + "</li>";
+                }
+                locations_text += "</ul>"
+
+                var link = first_child(newspapers.item(i).getElementsByTagName("HomePage").item(0));
+                var link_text = link == null ? "N/A" : ("<a href='" + data_of(link) + "' target='_blank'>" + data_of(link) + "</a>");
+
+                var logo = first_child(newspapers.item(i).getElementsByTagName("Logo").item(0));
+                var logo_text = logo == null ? "N/A" : ("<img src='" + data_of(logo) + "'>");
+
+                html_text += "<tr><td>" + slot_text + "</td><td>" + name_text + "</td><td>" + locations_text + "</td><td>" + link_text + "</td><td>" + logo_text + "</td></tr>";
+
+            }
+            html_text += "</table></body></html>";
+            hWin = window.open("", "Assignment4", "scrollbars=yes,resizable=yes");
+            hWin.document.write(html_text);
+
+            hWin.document.close();
+        }
+
+
+        function validateXML(link) {
+            var URL = link.URL.value;
+            var xmlDoc = loadXML(URL);
+            root = xmlDoc.documentElement;
+            if (root.nodeName == 'parsererror') {
+                alert("Error in XML file");
+                return;
+            }
+            if (root.getElementsByTagName('Row').length == 0) {
+                alert("Error: XML contains no newspapers entry");
+                return;
+            }
+            loadTable(xmlDoc);
+        }
+
+        function loadXML(url) {
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.open("GET", url, false);
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == 4) {
+                    if (xmlhttp.status == 404) {
+                        alert("File does not exist");
+                        return;
+                    }
+                }
+            }
+            xmlhttp.send();
+            xmlDoc = xmlhttp.responseXML;
+            return xmlDoc;
+        }
+
+
+        /**
+         * Throughout, whitespace is defined as one of the characters
+         *  "\t" TAB \u0009
+         *  "\n" LF  \u000A
+         *  "\r" CR  \u000D
+         *  " "  SPC \u0020
+         *
+         * This does not use Javascript's "\s" because that includes non-breaking
+         * spaces (and also some other characters).
+         */
+
+
+        /**
+         * Determine whether a node's text content is entirely whitespace.
+         *
+         * @param nod  A node implementing the |CharacterData| interface (i.e.,
+         *             a |Text|, |Comment|, or |CDATASection| node
+         * @return     True if all of the text content of |nod| is whitespace,
+         *             otherwise false.
+         */
+        function is_all_ws(nod) {
+            // Use ECMA-262 Edition 3 String and RegExp features
+            return !(/[^\t\n\r ]/.test(nod.textContent));
+        }
+
+
+        /**
+         * Determine if a node should be ignored by the iterator functions.
+         *
+         * @param nod  An object implementing the DOM1 |Node| interface.
+         * @return     true if the node is:
+         *                1) A |Text| node that is all whitespace
+         *                2) A |Comment| node
+         *             and otherwise false.
+         */
+
+        function is_ignorable(nod) {
+            return (nod.nodeType == 8) || // A comment node
+                ((nod.nodeType == 3) && is_all_ws(nod)); // a text node, all ws
+        }
+
+        /**
+         * Version of |previousSibling| that skips nodes that are entirely
+         * whitespace or comments.  (Normally |previousSibling| is a property
+         * of all DOM nodes that gives the sibling node, the node that is
+         * a child of the same parent, that occurs immediately before the
+         * reference node.)
+         *
+         * @param sib  The reference node.
+         * @return     Either:
+         *               1) The closest previous sibling to |sib| that is not
+         *                  ignorable according to |is_ignorable|, or
+         *               2) null if no such node exists.
+         */
+        function node_before(sib) {
+            while ((sib = sib.previousSibling)) {
+                if (!is_ignorable(sib)) return sib;
+            }
+            return null;
+        }
+
+        /**
+         * Version of |nextSibling| that skips nodes that are entirely
+         * whitespace or comments.
+         *
+         * @param sib  The reference node.
+         * @return     Either:
+         *               1) The closest next sibling to |sib| that is not
+         *                  ignorable according to |is_ignorable|, or
+         *               2) null if no such node exists.
+         */
+        function node_after(sib) {
+            while ((sib = sib.nextSibling)) {
+                if (!is_ignorable(sib)) return sib;
+            }
+            return null;
+        }
+
+        /**
+         * Version of |lastChild| that skips nodes that are entirely
+         * whitespace or comments.  (Normally |lastChild| is a property
+         * of all DOM nodes that gives the last of the nodes contained
+         * directly in the reference node.)
+         *
+         * @param sib  The reference node.
+         * @return     Either:
+         *               1) The last child of |sib| that is not
+         *                  ignorable according to |is_ignorable|, or
+         *               2) null if no such node exists.
+         */
+        function last_child(par) {
+            var res = par.lastChild;
+            while (res) {
+                if (!is_ignorable(res)) return res;
+                res = res.previousSibling;
+            }
+            return null;
+        }
+
+        /**
+         * Version of |firstChild| that skips nodes that are entirely
+         * whitespace and comments.
+         *
+         * @param sib  The reference node.
+         * @return     Either:
+         *               1) The first child of |sib| that is not
+         *                  ignorable according to |is_ignorable|, or
+         *               2) null if no such node exists.
+         */
+        function first_child(par) {
+            var res = par.firstChild;
+            while (res) {
+                if (!is_ignorable(res)) return res;
+                res = res.nextSibling;
+            }
+            return null;
+        }
+
+        /**
+         * Version of |data| that doesn't include whitespace at the beginning
+         * and end and normalizes all whitespace to a single space.  (Normally
+         * |data| is a property of text nodes that gives the text of the node.)
+         *
+         * @param txt  The text node whose data should be returned
+         * @return     A string giving the contents of the text node with
+         *             whitespace collapsed.
+         */
+        function data_of(txt) {
+            var data = txt.textContent;
+            // Use ECMA-262 Edition 3 String and RegExp features
+            data = data.replace(/[\t\n\r ]+/g, " ");
+            if (data.charAt(0) == " ")
+                data = data.substring(1, data.length);
+            if (data.charAt(data.length - 1) == " ")
+                data = data.substring(0, data.length - 1);
+            return data;
+        }
+    </script>
+
+</head>
+
+<body>
+
+    <div id="form_wrapper">
+
+        <h1>Enter URL for Newspaper List XML File</h1>
+        <form name="myform" method="POST" id="location">
+            <input type="text" name="URL" maxlength="255" size="50" />
+            <br />
+            <input type="button" name="submit" value="Submit Query" onClick="validateXML(this.form)" />
+        </form>
+    </div>
+</body>
+
+</html>
