@@ -1,0 +1,233 @@
+/* Universal */
+
+@import url(http://fonts.googleapis.com/css?family=Open+Sans);
+body {
+    font-family: "Open Sans";
+    background-color: #f2f2f2;
+    overflow-x: hidden;
+}
+
+.fixed {
+    position: fixed;
+}
+
+.collapsed {
+    display: block;
+    margin-left: -25%;
+}
+
+.container-fluid {
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-bottom: 10px;
+}
+
+.capitalize {
+   text-transform: capitalize;
+}
+
+.logo {
+    height: 23px;
+    width: 23px;
+}
+
+.table-button {
+    width: 10%;
+}
+
+.normal-button {
+    height: 28px;
+    width: 38px;
+}
+
+.square-button {
+    height: 33px;
+    width: 38px;
+}
+
+.bordered-star {
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+}
+
+.photo {
+    min-width: 50%;
+    max-width: 70%;
+    margin-bottom: 10px;
+}
+
+.photo-small {
+    height: 55PX;
+}
+
+.social {
+    height: 35px;
+    width: 35px;
+}
+
+.yellow {
+    color: yellow;
+}
+
+.white {
+    color: white;
+}
+/* Header */
+
+#row-header {
+    height: 40px;
+}
+
+.header {
+    height: 40px;
+    background-color: white;
+    width: 100%;
+    text-align: center;
+}
+
+.header .fa-bars {
+    font-size: 1.5em;
+    color: black;
+    float: left;
+    margin: 10px 10px 10px 20px;
+}
+
+a.page-header {
+    color: black;
+    text-decoration: none;
+}
+
+a.page-header:hover {
+    color:black;
+    text-decoration:none;
+}
+span.title {
+    font-size: 1.7em;
+    font-weight: bold;
+}
+
+/* Side menu */
+
+.side-menu {
+    height: 100%;
+    background-color: #3d3d3d;
+    padding: 0;
+    z-index : 1;
+}
+
+.side-menu .menu {
+    padding: 30px 10px;
+    font-size: 1.2em;
+}
+
+.side-menu .menu span {
+    margin-left: 10px;
+}
+
+.side-menu ul {
+    text-decoration: none;
+    list-style: none;
+}
+
+.side-menu ul li {
+    margin: auto auto 30px 5%;
+}
+
+.side-menu ul li:hover i,
+.side-menu ul li:hover span {
+    color: white;
+}
+
+.side-menu ul a {
+    color: lightgray;
+    text-decoration: none;
+    height: 100%;
+    display: block;
+}
+
+
+/* Content */
+
+
+/* Content Header */
+
+#content-container h1 {
+    border-bottom: lightgray 2px solid;
+}
+
+
+/* Content Table */
+.panel-container {
+    padding: 1px;
+    border-radius: 5px;
+}
+
+
+/* Table */
+.table-container {
+    border: lightgray 1px solid;
+    border-radius: 5px;
+    margin: 15px;
+}
+.table-header {
+    background-color: #f2f2f2;
+    padding: 10px;
+    border-bottom: lightgray 1px solid;
+    border-radius: 5px 5px 0 0;
+}
+
+.table-header .info {
+    font-size: 1.3em;
+}
+
+.white-shadow {
+    box-shadow: 0 0 10px;
+    background-color: white;
+    border-radius: 5px;
+}
+
+.form-control {
+    display: inline;
+}
+
+.nav li a {
+    color: #d3d3d3;
+}
+
+.nav li.active {
+    border-bottom: lightgray 1px solid;
+}
+
+
+div.table-wrapper {
+    overflow: auto;
+}
+
+
+/* Legislator detail page */
+.detail-header {
+    padding: 5px 15px 5px 15px;
+    border-bottom: lightgray 1px solid;
+}
+
+.detail-title {
+    font-size: 1.5em;
+    font-weight: bold;
+
+}
+
+.detail-header-left {
+    float: left;
+    margin-left: 20px;
+}
+
+.detail-header-right {
+    float: right;
+    margin-right: 20px;
+}
+
+.legiDetail-content-person {
+    margin-top: 5px;
+    overflow: auto;
+    padding-top: 5px;
+}
