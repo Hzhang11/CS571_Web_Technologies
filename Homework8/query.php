@@ -1,7 +1,7 @@
 <?php
 //ini_set('default_socket_timeout', 3);
-$url2 = "http://congress.api.sunlightfoundation.com/";
-$url1 = "http://104.198.0.197:8080/";
+$url1 = "http://congress.api.sunlightfoundation.com/";
+$url2 = "http://104.198.0.197:8080/";
 $request_url = "";
 $params = "";
 $varCount = 0;

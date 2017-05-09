@@ -163,7 +163,7 @@ function LegiController($scope, $rootScope, $http, $q, LegislatorsFactory, Bills
     }, function (response) {
         alert("Unable to fetch data from AWS, please try again later.");
     });
-    
+	
     /* Filters */
     /* State filter */
     $scope.stateFilter = function (person) {
@@ -395,9 +395,15 @@ function favController($scope, $rootScope, $http, $q, LegislatorsFactory, BillsF
         jQuery('#billCarousel.carousel').carousel(0);
         jQuery('#sideTab li:eq(1) a').tab('show');
         jQuery('#sideTab li:eq(1) a').one('shown.bs.tab', function () {
+<<<<<<< HEAD
                 jQuery('#billCarousel.carousel').carousel(1);
             });
        // jQuery('#billCarousel.carousel').carousel(1);
+=======
+            jQuery('#billCarousel.carousel').carousel(1);
+        });
+        // jQuery('#billCarousel.carousel').carousel(1);
+>>>>>>> a2127bdfff648c9c38f95b650fcfa8b01c344bb8
     };
 
 
